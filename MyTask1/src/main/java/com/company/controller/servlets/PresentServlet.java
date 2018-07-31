@@ -39,16 +39,17 @@ public class PresentServlet extends HttpServlet {
     }
 
     private void checkSortParameter(HttpServletRequest req) {
+        Sorter sorter = new Sorter(present);
         String sort = req.getParameter(TextConstants.SORTING_TYPE) != null ? req.getParameter(TextConstants.SORTING_TYPE) : "";
         switch (sort) {
             case TextConstants.COST:
-                present.sortSweetsByCost();
+                sorter.sortByCost();
                 break;
             case TextConstants.WEIGHT:
-                present.sortSweetsByWeight();
+                sorter.sortByWeight();
                 break;
             case TextConstants.SUGAR:
-                present.sortSweetsBySugar();
+                sorter.sortBySugar();
                 break;
             case "":
                 break;
@@ -58,6 +59,7 @@ public class PresentServlet extends HttpServlet {
     }
 
     private List<Sweet> checkSugarParameters(HttpServletRequest req) {
+        Searcher searcher = new Searcher(present);
         String minSugarParam = req.getParameter(TextConstants.SUGAR_MINIMUM);
         String maxSugarParam = req.getParameter(TextConstants.SUGAR_MAXIMUM);
         if (Objects.isNull(minSugarParam) || Objects.isNull(maxSugarParam)) {
@@ -65,7 +67,7 @@ public class PresentServlet extends HttpServlet {
         }
         int minSugar = getNumberParameter(req, minSugarParam);
         int maxSugar = getNumberParameter(req, maxSugarParam);
-        return present.getSweetsBySugar(minSugar, maxSugar);
+        return searcher.search(minSugar, maxSugar);
     }
 
     private int getNumberParameter(HttpServletRequest req, String param) {

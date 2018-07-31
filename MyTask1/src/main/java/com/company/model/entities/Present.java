@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * Provide methods for adding, removing, sorting and getting
  * specified sweets
  */
-public class Present {
+public class Present implements PresentSorter, SugarSearcher {
     private List<Sweet> sweets;
 
     /**
